@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.env
+*.db
+*.sqlite3
+uploads/
+node_modules/
+dist/
+.DS_Store
+.venv/
+.pytest_cache/
+*.log
+
+# Ignore PDFs by default except sample dataset bundles
+*.pdf
+!dataset/apps/**/*.pdf

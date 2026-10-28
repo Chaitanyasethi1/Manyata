@@ -1,0 +1,45 @@
+"""Entry point. Run from repo root: python -m dataset.generator.run"""
+from pathlib import Path
+from dataset.generator.bundle import build_all
+import csv
+
+LABELS = [
+    ("app_01","land_deed","land_deed.pdf","none","","none","","CLEARED"),
+    ("app_01","trust_certificate","trust_certificate.pdf","none","","none","","CLEARED"),
+    ("app_01","faculty_list","faculty_list.pdf","none","","none","","CLEARED"),
+    ("app_01","fire_noc","fire_noc.pdf","none","","none","","CLEARED"),
+    ("app_02","land_deed","land_deed.pdf","value_change","area_sqft changed from 45000 to 4500","high","AUTH_002","UNDER_REVIEW"),
+    ("app_02","trust_certificate","trust_certificate.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_02","faculty_list","faculty_list.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_02","fire_noc","fire_noc.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_03","land_deed","land_deed.pdf","none","","none","","DEFICIENT"),
+    ("app_03","trust_certificate","trust_certificate.pdf","none","","none","","DEFICIENT"),
+    ("app_03","faculty_list","faculty_list.pdf","none","","none","","DEFICIENT"),
+    ("app_03","fire_noc","fire_noc.pdf","expired_doc","valid_until 2024-11-01 is in the past","critical","AUTH_003","DEFICIENT"),
+    ("app_04","land_deed","land_deed.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_04","trust_certificate","trust_certificate.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_04","faculty_list","faculty_list.pdf","cross_doc_mismatch","doc says 45 faculty but form says 30","high","AUTH_004","UNDER_REVIEW"),
+    ("app_04","fire_noc","fire_noc.pdf","none","","none","","UNDER_REVIEW"),
+    ("app_05","land_deed","land_deed.pdf","seal_copy_paste","FIRE DEPT seal copied onto land deed","critical","FORG_001","DEFICIENT"),
+    ("app_05","trust_certificate","trust_certificate.pdf","none","","none","","DEFICIENT"),
+    ("app_05","faculty_list","faculty_list.pdf","none","","none","","DEFICIENT"),
+    ("app_05","fire_noc","fire_noc.pdf","none","","none","","DEFICIENT"),
+]
+
+HEADERS = [
+    "bundle_id","doc_type","filename","tamper_type","tamper_detail",
+    "expected_flag_severity","expected_flag_id","ground_truth_status"
+]
+
+def write_labels():
+    out = Path("dataset/labels.csv")
+    with open(out, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(HEADERS)
+        w.writerows(LABELS)
+    print(f"labels.csv written → {out}")
+
+if __name__ == "__main__":
+    build_all()
+    write_labels()
+    print("P3 complete.")

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ── PAGE 1: Cover ── -->
+<div class="page-header">
+  <h1>AICTE — Deficiency Report</h1>
+  <div class="sub">All India Council for Technical Education | SIH26261 Validation System</div>
+  <div class="meta-row">
+    <span><strong>Application ID:</strong> {{ app_id }}</span>
+    <span><strong>Generated:</strong> {{ generated_at }}</span>
+  </div>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Status</div>
+  <p>
+    <span class="badge badge-deficient">&#10007; DEFICIENT</span>
+    &nbsp;&nbsp;This application has been found deficient. Please address the issues listed below and resubmit.
+  </p>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Applicant Information</div>
+  <table class="data-table">
+    <tr><th style="width:35%">Field</th><th>Value</th></tr>
+    <tr><td>Institution Name</td><td>{{ institution_name }}</td></tr>
+    <tr><td>Applicant Name</td><td>{{ applicant_name }}</td></tr>
+    <tr><td>Application Type</td><td>{{ application_type }}</td></tr>
+    <tr><td>Submitted At</td><td>{{ submitted_at }}</td></tr>
+    <tr><td>State</td><td>{{ form_data.get('state', 'N/A') }}</td></tr>
+    <tr><td>City</td><td>{{ form_data.get('city', 'N/A') }}</td></tr>
+  </table>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Trust Score</div>
+  {% set score = trust_score %}
+  {% set pct = (score * 100) | int %}
+  {% if score >= 0.75 %}
+    {% set cls = "score-high" %}
+  {% elif score >= 0.5 %}
+    {% set cls = "score-medium" %}
+  {% else %}
+    {% set cls = "score-low" %}
+  {% endif %}
+  <p><strong>Overall Trust Score: {{ "%.1f"|format(score * 100) }}%</strong></p>
+  <div class="score-bar-wrap">
+    <div class="score-bar {{ cls }}" style="width: {{ pct }}%;"></div>
+  </div>
+  <table class="data-table mt-8">
+    <tr>
+      <th>Module</th><th>Score</th><th>Result</th>
+    </tr>
+    {% for mod, val in sub_scores.items() %}
+    <tr>
+      <td>{{ mod | title }}</td>
+      <td>{{ "%.1f"|format(val * 100) }}%</td>
+      <td>
+        {% if val >= 0.7 %}
+          <span class="badge badge-pass">PASS</span>
+        {% elif val >= 0.5 %}
+          <span class="badge badge-warn">WARN</span>
+        {% else %}
+          <span class="badge badge-fail">FAIL</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ── PAGE 2: Deficiencies ── -->
+<div class="page-header">
+  <h1>AICTE — Deficiency Report (cont.)</h1>
+  <div class="meta-row">
+    <span><strong>Application ID:</strong> {{ app_id }}</span>
+    <span><strong>Page 2</strong></span>
+  </div>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Deficiencies Found</div>
+  {% if flags %}
+    <table class="data-table">
+      <tr><th>#</th><th>Issue</th><th>Action Required</th></tr>
+      {% for flag in flags %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ flag }}</td>
+        <td>Applicant must address and resubmit supporting documents.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No specific flags were recorded. Please contact the AICTE helpdesk for clarification.</p>
+  {% endif %}
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Submitted Documents</div>
+  <table class="data-table">
+    <tr>
+      <th>#</th><th>Document Type</th><th>Filename</th><th>Status</th>
+    </tr>
+    {% for doc in docs %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ doc.doc_type }}</td>
+      <td>{{ doc.filename }}</td>
+      <td>
+        {% if doc.status == 'verified' %}
+          <span class="badge badge-pass">Verified</span>
+        {% elif doc.status == 'flagged' %}
+          <span class="badge badge-fail">Flagged</span>
+        {% else %}
+          <span class="badge badge-warn">{{ doc.status | title }}</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Officer Decision</div>
+  <table class="data-table">
+    <tr><th style="width:35%">Field</th><th>Value</th></tr>
+    <tr><td>Validated Status</td><td><span class="badge badge-deficient">DEFICIENT</span></td></tr>
+    <tr><td>Officer Comment</td><td>{{ officer_comment or "— System auto-flagged as deficient —" }}</td></tr>
+    <tr><td>Validated At</td><td>{{ created_at }}</td></tr>
+  </table>
+</div>
+
+<div class="section no-break">
+  <div class="section-title">Resubmission Instructions</div>
+  <p>The applicant must:</p>
+  <table class="data-table">
+    <tr><th>#</th><th>Step</th></tr>
+    <tr><td>1</td><td>Obtain fresh / corrected copies of all flagged documents.</td></tr>
+    <tr><td>2</td><td>Ensure all documents are self-attested and bear the institution seal.</td></tr>
+    <tr><td>3</td><td>Resubmit through the AICTE portal within 30 calendar days of this notice.</td></tr>
+    <tr><td>4</td><td>Quote this Application ID in all correspondence: <strong>{{ app_id }}</strong></td></tr>
+  </table>
+</div>
+
+<div class="signoff-grid no-break">
+  <div class="signoff-box">
+    <div class="label">Reviewing Officer</div>
+    <div class="name">Authorised Signatory</div>
+    <div class="sig-line">Signature &amp; Date</div>
+  </div>
+  <div class="signoff-box">
+    <div class="label">Section Head</div>
+    <div class="name">Section Head, AICTE</div>
+    <div class="sig-line">Signature &amp; Date</div>
+  </div>
+  <div class="signoff-box">
+    <div class="label">Official Seal</div>
+    <div class="name">&nbsp;</div>
+    <div class="sig-line">Seal</div>
+  </div>
+</div>
+
+{% endblock %}

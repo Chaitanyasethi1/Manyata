@@ -1,0 +1,37 @@
+FROM python:3.11-slim
+
+# System deps for WeasyPrint + Tesseract + Poppler
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    poppler-utils \
+    libpango-1.0-0 \
+    libpangoft2-1.0-0 \
+    libpangocairo-1.0-0 \
+    libcairo2 \
+    libgdk-pixbuf2.0-0 \
+    libffi-dev \
+    shared-mime-info \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install Python deps
+COPY backend/requirements.txt ./backend/requirements.txt
+COPY engine/requirements.txt  ./engine/requirements.txt
+RUN pip install --no-cache-dir \
+    -r backend/requirements.txt \
+    -r engine/requirements.txt
+
+# Copy source
+COPY backend/   ./backend/
+COPY engine/    ./engine/
+COPY rules/     ./rules/
+COPY reports/   ./reports/
+COPY dataset/   ./dataset/
+
+# Create upload dir
+RUN mkdir -p uploads
+
+ENV PYTHONPATH=/app
+
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,7 @@
+# Member A fills this in during P4–P7
+# Placeholder only
+reportlab>=4.0.0      # PDF generation
+Pillow>=10.0.0        # image manipulation for tampers
+pypdf>=4.0.0          # reading/copying PDF pages if needed
+pytesseract>=0.3.10
+pdf2image>=1.17.0
