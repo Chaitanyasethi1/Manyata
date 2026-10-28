@@ -1,0 +1,68 @@
+{
+  "application_id": "AICTE-2026-0003",
+  "extraction": [
+    {
+      "doc_type": "land_deed",
+      "fields": {
+        "institution_name": "SAMPLE Institute of Tech",
+        "land_area_acre": 5.0,
+        "survey_number": "SAMPLE-SY-303"
+      },
+      "confidence": 0.96
+    },
+    {
+      "doc_type": "trust_cert",
+      "fields": {
+        "trust_name": "SAMPLE Foundation Trust",
+        "registration_number": "SAMPLE-TR-2028"
+      },
+      "confidence": 0.95
+    },
+    {
+      "doc_type": "faculty_list",
+      "fields": {
+        "total_faculty": 50,
+        "phd_faculty": 12
+      },
+      "confidence": 0.94
+    },
+    {
+      "doc_type": "fire_noc",
+      "fields": {
+        "noc_number": "SAMPLE-NOC-2024-11",
+        "valid_until": "2025-01-10"
+      },
+      "confidence": 0.93
+    }
+  ],
+  "modules": [
+    {
+      "module": "authenticity",
+      "sub_score": 80.0,
+      "flags": [
+        {
+          "id": "AUTH_HIGH_SAMPLE_03",
+          "severity": "high",
+          "message": "SAMPLE fire NOC expired",
+          "document": "SAMPLE_fire_noc.pdf",
+          "evidence": {
+            "page": 1,
+            "bbox": null,
+            "heatmap_path": null
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "forgery",
+      "sub_score": 100.0,
+      "flags": []
+    },
+    {
+      "module": "compliance",
+      "sub_score": 100.0,
+      "flags": []
+    }
+  ]
+}

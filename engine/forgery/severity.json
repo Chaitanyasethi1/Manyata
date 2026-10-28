@@ -1,0 +1,8 @@
+{
+  "seal_reuse": "critical",
+  "ela_region": "critical",
+  "copy_move": "critical",
+  "font_inconsistent": "medium",
+  "noise_inconsistent": "medium",
+  "seal_not_found": "low"
+}

@@ -1,0 +1,12 @@
+{
+  "application_id": "AICTE-2026-0003",
+  "scenario": "NOC expired",
+  "expected_flags": [
+    {
+      "module": "authenticity",
+      "doc_type": "fire_noc",
+      "kind": "expired"
+    }
+  ],
+  "must_not_be_cleared": true
+}

@@ -1,0 +1,158 @@
+{
+  "trusts": {
+    "SAMPLE/TR/2021/2679": {
+      "trust_name": "Sample Sharma Education Society",
+      "institution_name": "Sample Sharma Institute of Technology",
+      "registration_date": "30-06-2021"
+    },
+    "SAMPLE/TR/2017/9179": {
+      "trust_name": "Sample Verma Education Society",
+      "institution_name": "Sample Verma Institute of Technology",
+      "registration_date": "01-10-2017"
+    },
+    "SAMPLE/TR/2016/4295": {
+      "trust_name": "Sample Patel Education Society",
+      "institution_name": "Sample Patel Institute of Technology",
+      "registration_date": "03-05-2016"
+    },
+    "SAMPLE/TR/2016/9883": {
+      "trust_name": "Sample Reddy Education Society",
+      "institution_name": "Sample Reddy Institute of Technology",
+      "registration_date": "15-03-2016"
+    },
+    "SAMPLE/TR/2021/7939": {
+      "trust_name": "Sample Gupta Education Society",
+      "institution_name": "Sample Gupta Institute of Technology",
+      "registration_date": "04-08-2021"
+    },
+    "SAMPLE/TR/2019/9821": {
+      "trust_name": "Sample Iyer Education Society",
+      "institution_name": "Sample Iyer Institute of Technology",
+      "registration_date": "10-05-2019"
+    },
+    "SAMPLE/TR/2019/9702": {
+      "trust_name": "Sample Mehta Education Society",
+      "institution_name": "Sample Mehta Institute of Technology",
+      "registration_date": "26-05-2019"
+    },
+    "SAMPLE/TR/2022/4266": {
+      "trust_name": "Sample Singh Education Society",
+      "institution_name": "Sample Singh Institute of Technology",
+      "registration_date": "04-05-2022"
+    },
+    "SAMPLE/TR/2018/4130": {
+      "trust_name": "Sample Rao Education Society",
+      "institution_name": "Sample Rao Institute of Technology",
+      "registration_date": "10-09-2018"
+    },
+    "SAMPLE/TR/2020/8381": {
+      "trust_name": "Sample Nair Education Society",
+      "institution_name": "Sample Nair Institute of Technology",
+      "registration_date": "04-12-2020"
+    }
+  },
+  "lands": {
+    "SAMPLE/LD/2022/4657": {
+      "owner_name": "Sample Sharma Education Society",
+      "land_area_acre": 3.8,
+      "registration_date": "27-02-2022"
+    },
+    "SAMPLE/LD/2018/6155": {
+      "owner_name": "Sample Verma Education Society",
+      "land_area_acre": 4.9,
+      "registration_date": "14-08-2018"
+    },
+    "SAMPLE/LD/2018/4470": {
+      "owner_name": "Sample Patel Education Society",
+      "land_area_acre": 6.7,
+      "registration_date": "14-02-2018"
+    },
+    "SAMPLE/LD/2018/1958": {
+      "owner_name": "Sample Reddy Education Society",
+      "land_area_acre": 4.1,
+      "registration_date": "06-02-2018"
+    },
+    "SAMPLE/LD/2022/1832": {
+      "owner_name": "Sample Gupta Education Society",
+      "land_area_acre": 9.0,
+      "registration_date": "14-02-2022"
+    },
+    "SAMPLE/LD/2021/1027": {
+      "owner_name": "Sample Iyer Education Society",
+      "land_area_acre": 4.3,
+      "registration_date": "31-01-2021"
+    },
+    "SAMPLE/LD/2020/3184": {
+      "owner_name": "Sample Mehta Education Society",
+      "land_area_acre": 4.7,
+      "registration_date": "21-12-2020"
+    },
+    "SAMPLE/LD/2023/1508": {
+      "owner_name": "Sample Singh Education Society",
+      "land_area_acre": 7.6,
+      "registration_date": "22-04-2023"
+    },
+    "SAMPLE/LD/2020/1166": {
+      "owner_name": "Sample Rao Education Society",
+      "land_area_acre": 9.2,
+      "registration_date": "31-05-2020"
+    },
+    "SAMPLE/LD/2022/9561": {
+      "owner_name": "Sample Nair Education Society",
+      "land_area_acre": 5.9,
+      "registration_date": "07-04-2022"
+    }
+  },
+  "nocs": {
+    "SAMPLE/FIRE/2026/7912": {
+      "institution_name": "Sample Sharma Institute of Technology",
+      "issue_date": "09-05-2026",
+      "validity_date": "02-01-2028"
+    },
+    "SAMPLE/FIRE/2026/8517": {
+      "institution_name": "Sample Verma Institute of Technology",
+      "issue_date": "16-06-2026",
+      "validity_date": "13-10-2028"
+    },
+    "SAMPLE/FIRE/2026/7118": {
+      "institution_name": "Sample Patel Institute of Technology",
+      "issue_date": "08-07-2026",
+      "validity_date": "10-06-2028"
+    },
+    "SAMPLE/FIRE/2026/1936": {
+      "institution_name": "Sample Reddy Institute of Technology",
+      "issue_date": "10-09-2026",
+      "validity_date": "27-04-2028"
+    },
+    "SAMPLE/FIRE/2026/1058": {
+      "institution_name": "Sample Gupta Institute of Technology",
+      "issue_date": "17-07-2026",
+      "validity_date": "11-12-2027"
+    },
+    "SAMPLE/FIRE/2026/8066": {
+      "institution_name": "Sample Iyer Institute of Technology",
+      "issue_date": "06-08-2026",
+      "validity_date": "23-05-2028"
+    },
+    "SAMPLE/FIRE/2026/6198": {
+      "institution_name": "Sample Mehta Institute of Technology",
+      "issue_date": "05-05-2026",
+      "validity_date": "18-09-2028"
+    },
+    "SAMPLE/FIRE/2026/3496": {
+      "institution_name": "Sample Singh Institute of Technology",
+      "issue_date": "20-09-2026",
+      "validity_date": "02-10-2028"
+    },
+    "SAMPLE/FIRE/2026/7658": {
+      "institution_name": "Sample Rao Institute of Technology",
+      "issue_date": "04-09-2026",
+      "validity_date": "21-03-2028"
+    },
+    "SAMPLE/FIRE/2026/8025": {
+      "institution_name": "Sample Nair Institute of Technology",
+      "issue_date": "04-06-2026",
+      "validity_date": "19-04-2028"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "slot_mismatch": "high",
+  "registration_format_invalid": "high",
+  "date_illogical": "high",
+  "expired": "critical",
+  "expiring_soon": "low",
+  "form_mismatch_numeric": "critical",
+  "form_mismatch_name": "high",
+  "cross_doc_name_mismatch": "high",
+  "faculty_count_internal": "medium",
+  "metadata_editor": "medium",
+  "metadata_date_gap": "medium",
+  "qr_mismatch": "high",
+  "qr_unreadable": "low",
+  "registry_not_found": "high",
+  "registry_mismatch": "high",
+  "unreadable_field": "low"
+}

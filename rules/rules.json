@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "rule_id": "RULE_LAND_AREA",
+    "category": "infrastructure",
+    "field": "land_area_acre",
+    "operator": ">=",
+    "value": null,
+    "clause": "TO_VERIFY",
+    "severity": "critical"
+  },
+  {
+    "rule_id": "RULE_STUDENT_FACULTY_RATIO",
+    "category": "academics",
+    "field": "student_faculty_ratio",
+    "operator": "<=",
+    "value": null,
+    "clause": "TO_VERIFY",
+    "severity": "high"
+  },
+  {
+    "rule_id": "RULE_FIRE_NOC_PRESENT",
+    "category": "safety",
+    "field": "noc_present",
+    "operator": "==",
+    "value": null,
+    "clause": "TO_VERIFY",
+    "severity": "critical"
+  },
+  {
+    "rule_id": "RULE_FIRE_NOC_VALIDITY",
+    "category": "safety",
+    "field": "noc_validity_ok",
+    "operator": "==",
+    "value": null,
+    "clause": "TO_VERIFY",
+    "severity": "high"
+  }
+]

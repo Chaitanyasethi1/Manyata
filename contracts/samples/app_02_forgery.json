@@ -1,0 +1,86 @@
+{
+  "application_id": "AICTE-2026-0002",
+  "extraction": [
+    {
+      "doc_type": "land_deed",
+      "fields": {
+        "institution_name": "SAMPLE City Engineering College",
+        "land_area_acre": 4.5,
+        "survey_number": "SAMPLE-SY-202"
+      },
+      "confidence": 0.92
+    },
+    {
+      "doc_type": "trust_cert",
+      "fields": {
+        "trust_name": "SAMPLE Vidya Trust",
+        "registration_number": "SAMPLE-TR-2027"
+      },
+      "confidence": 0.95
+    },
+    {
+      "doc_type": "faculty_list",
+      "fields": {
+        "total_faculty": 45,
+        "phd_faculty": 10
+      },
+      "confidence": 0.94
+    },
+    {
+      "doc_type": "fire_noc",
+      "fields": {
+        "noc_number": "SAMPLE-NOC-2026-42",
+        "valid_until": "2027-05-15"
+      },
+      "confidence": 0.95
+    }
+  ],
+  "modules": [
+    {
+      "module": "authenticity",
+      "sub_score": 80.0,
+      "flags": [
+        {
+          "id": "AUTH_HIGH_SAMPLE_02",
+          "severity": "high",
+          "message": "SAMPLE land area differs from form",
+          "document": "SAMPLE_land_deed.pdf",
+          "evidence": {
+            "page": 2,
+            "bbox": null,
+            "heatmap_path": null
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "forgery",
+      "sub_score": 80.0,
+      "flags": [
+        {
+          "id": "FORGERY_HIGH_SAMPLE_02",
+          "severity": "high",
+          "message": "SAMPLE ELA anomaly detected on land deed",
+          "document": "SAMPLE_land_deed.pdf",
+          "evidence": {
+            "page": 1,
+            "bbox": [
+              120.0,
+              340.0,
+              450.0,
+              395.0
+            ],
+            "heatmap_path": "heatmaps/app_02_land_deed_ela.png"
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "compliance",
+      "sub_score": 100.0,
+      "flags": []
+    }
+  ]
+}

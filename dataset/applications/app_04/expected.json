@@ -1,0 +1,12 @@
+{
+  "application_id": "AICTE-2026-0004",
+  "scenario": "faculty count vs form mismatch",
+  "expected_flags": [
+    {
+      "module": "authenticity",
+      "doc_type": "faculty_list",
+      "kind": "cross-doc"
+    }
+  ],
+  "must_not_be_cleared": true
+}

@@ -1,0 +1,35 @@
+{
+  "statuses": [
+    "SUBMITTED",
+    "PROCESSING",
+    "CLEARED",
+    "UNDER_REVIEW",
+    "DEFICIENT",
+    "RESUBMITTED",
+    "FORWARDED"
+  ],
+  "transitions": {
+    "SUBMITTED": [
+      "PROCESSING"
+    ],
+    "PROCESSING": [
+      "CLEARED",
+      "UNDER_REVIEW",
+      "DEFICIENT"
+    ],
+    "UNDER_REVIEW": [
+      "CLEARED",
+      "DEFICIENT"
+    ],
+    "DEFICIENT": [
+      "RESUBMITTED"
+    ],
+    "RESUBMITTED": [
+      "PROCESSING"
+    ],
+    "CLEARED": [
+      "FORWARDED"
+    ],
+    "FORWARDED": []
+  }
+}

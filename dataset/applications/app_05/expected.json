@@ -1,0 +1,12 @@
+{
+  "application_id": "AICTE-2026-0005",
+  "scenario": "seal reuse",
+  "expected_flags": [
+    {
+      "module": "forgery",
+      "doc_type": "trust_cert",
+      "kind": "seal_reuse"
+    }
+  ],
+  "must_not_be_cleared": true
+}

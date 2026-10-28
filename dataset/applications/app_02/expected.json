@@ -1,0 +1,17 @@
+{
+  "application_id": "AICTE-2026-0002",
+  "scenario": "land area edited",
+  "expected_flags": [
+    {
+      "module": "forgery",
+      "doc_type": "land_deed",
+      "kind": "value_change"
+    },
+    {
+      "module": "authenticity",
+      "doc_type": "land_deed",
+      "kind": "area_vs_form"
+    }
+  ],
+  "must_not_be_cleared": true
+}

@@ -36,6 +36,7 @@ app.include_router(intake_router)
 app.include_router(pipeline_router)
 app.include_router(review_router)
 app.include_router(reports_router)
+app.include_router(reports_router, prefix="/api/v1")
 
 @app.get("/")
 def root():

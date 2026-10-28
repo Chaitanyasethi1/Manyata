@@ -1,0 +1,68 @@
+{
+  "application_id": "AICTE-2026-0004",
+  "extraction": [
+    {
+      "doc_type": "land_deed",
+      "fields": {
+        "institution_name": "SAMPLE Global College",
+        "land_area_acre": 6.0,
+        "survey_number": "SAMPLE-SY-404"
+      },
+      "confidence": 0.97
+    },
+    {
+      "doc_type": "trust_cert",
+      "fields": {
+        "trust_name": "SAMPLE Educational Society",
+        "registration_number": "SAMPLE-TR-2029"
+      },
+      "confidence": 0.98
+    },
+    {
+      "doc_type": "faculty_list",
+      "fields": {
+        "total_faculty": 35,
+        "phd_faculty": 8
+      },
+      "confidence": 0.95
+    },
+    {
+      "doc_type": "fire_noc",
+      "fields": {
+        "noc_number": "SAMPLE-NOC-2026-90",
+        "valid_until": "2027-11-20"
+      },
+      "confidence": 0.96
+    }
+  ],
+  "modules": [
+    {
+      "module": "authenticity",
+      "sub_score": 90.0,
+      "flags": [
+        {
+          "id": "AUTH_MED_SAMPLE_04",
+          "severity": "medium",
+          "message": "SAMPLE faculty count in faculty list differs from form total_faculty",
+          "document": "SAMPLE_faculty_list.pdf",
+          "evidence": {
+            "page": 1,
+            "bbox": null,
+            "heatmap_path": null
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "forgery",
+      "sub_score": 100.0,
+      "flags": []
+    },
+    {
+      "module": "compliance",
+      "sub_score": 100.0,
+      "flags": []
+    }
+  ]
+}

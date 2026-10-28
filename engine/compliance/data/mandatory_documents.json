@@ -1,0 +1,13 @@
+{
+  "_note": "MVP system checklist for the 4 supported document types. Handbook clause/list must be verified and replaced by Member B.",
+  "new_approval": {
+    "documents": [
+      "land_deed",
+      "trust_cert",
+      "faculty_list",
+      "fire_noc"
+    ],
+    "clause": "TO_VERIFY",
+    "severity": "critical"
+  }
+}

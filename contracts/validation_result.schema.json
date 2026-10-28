@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ValidationResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "application_id",
+    "extraction",
+    "modules"
+  ],
+  "properties": {
+    "application_id": {
+      "type": "string",
+      "pattern": "^AICTE-2026-\\d{4}$"
+    },
+    "extraction": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "doc_type",
+          "fields",
+          "confidence"
+        ],
+        "properties": {
+          "doc_type": {
+            "type": "string",
+            "enum": [
+              "land_deed",
+              "trust_cert",
+              "faculty_list",
+              "fire_noc"
+            ]
+          },
+          "fields": {
+            "type": "object"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "module",
+          "sub_score",
+          "flags"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "enum": [
+              "authenticity",
+              "forgery",
+              "compliance"
+            ]
+          },
+          "sub_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "severity",
+                "message",
+                "document",
+                "evidence",
+                "clause"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "document": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "page",
+                    "bbox",
+                    "heatmap_path"
+                  ],
+                  "properties": {
+                    "page": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "bbox": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": "number"
+                      },
+                      "minItems": 4,
+                      "maxItems": 4
+                    },
+                    "heatmap_path": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "clause": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

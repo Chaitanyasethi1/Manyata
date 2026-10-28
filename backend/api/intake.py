@@ -171,6 +171,8 @@ def list_applications(
             "status": a.status.value,
             "trust_score": a.trust_score,
             "created_at": a.created_at.isoformat(),
+            "updated_at": a.updated_at.isoformat() if a.updated_at else a.created_at.isoformat(),
+            "form_data": json.loads(a.form_data_json or "{}"),
         }
         for a in apps
     ]

@@ -6,17 +6,17 @@ import OfficerPortal     from './pages/Officer/index.jsx'
 import AdminPortal       from './pages/Admin/index.jsx'
 
 export default function App() {
-  const [role, setRole] = useState('institution')  // institution | officer | admin
+  const [role, setRole] = useState('officer')  // officer | admin | institution
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-[#F8F9FA] text-gray-900 flex flex-col font-sans">
       <NavBar role={role} setRole={setRole} />
-      <main className="max-w-6xl mx-auto px-4 py-6">
+      <main className="flex-1 w-full flex flex-col min-w-0">
         <Routes>
-          <Route path="/"              element={<Navigate to="/institution" replace />} />
-          <Route path="/institution/*" element={<InstitutionPortal />} />
-          <Route path="/officer/*"     element={<OfficerPortal />} />
-          <Route path="/admin/*"       element={<AdminPortal />} />
+          <Route path="/"              element={<Navigate to="/officer" replace />} />
+          <Route path="/officer/*"     element={<OfficerPortal role={role} setRole={setRole} />} />
+          <Route path="/admin/*"       element={<AdminPortal role={role} setRole={setRole} />} />
+          <Route path="/institution/*" element={<InstitutionPortal role={role} setRole={setRole} />} />
         </Routes>
       </main>
     </div>

@@ -1,0 +1,68 @@
+{
+  "application_id": "AICTE-2026-0001",
+  "extraction": [
+    {
+      "doc_type": "land_deed",
+      "fields": {
+        "institution_name": "SAMPLE Apex Institute",
+        "land_area_acre": 5.2,
+        "survey_number": "SAMPLE-SY-101"
+      },
+      "confidence": 0.98
+    },
+    {
+      "doc_type": "trust_cert",
+      "fields": {
+        "trust_name": "SAMPLE Educational Trust",
+        "registration_number": "SAMPLE-TR-2026"
+      },
+      "confidence": 0.99
+    },
+    {
+      "doc_type": "faculty_list",
+      "fields": {
+        "total_faculty": 60,
+        "phd_faculty": 18
+      },
+      "confidence": 0.96
+    },
+    {
+      "doc_type": "fire_noc",
+      "fields": {
+        "noc_number": "SAMPLE-NOC-2026-88",
+        "valid_until": "2027-12-31"
+      },
+      "confidence": 0.97
+    }
+  ],
+  "modules": [
+    {
+      "module": "authenticity",
+      "sub_score": 97.0,
+      "flags": [
+        {
+          "id": "AUTH_LOW_SAMPLE_01",
+          "severity": "low",
+          "message": "SAMPLE minor scan distortion detected on corner margin",
+          "document": "SAMPLE_land_deed.pdf",
+          "evidence": {
+            "page": 1,
+            "bbox": null,
+            "heatmap_path": null
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "forgery",
+      "sub_score": 100.0,
+      "flags": []
+    },
+    {
+      "module": "compliance",
+      "sub_score": 100.0,
+      "flags": []
+    }
+  ]
+}

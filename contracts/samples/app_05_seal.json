@@ -1,0 +1,73 @@
+{
+  "application_id": "AICTE-2026-0005",
+  "extraction": [
+    {
+      "doc_type": "land_deed",
+      "fields": {
+        "institution_name": "SAMPLE National Academy",
+        "land_area_acre": 5.5,
+        "survey_number": "SAMPLE-SY-505"
+      },
+      "confidence": 0.95
+    },
+    {
+      "doc_type": "trust_cert",
+      "fields": {
+        "trust_name": "SAMPLE Charitable Trust",
+        "registration_number": "SAMPLE-TR-2030"
+      },
+      "confidence": 0.91
+    },
+    {
+      "doc_type": "faculty_list",
+      "fields": {
+        "total_faculty": 40,
+        "phd_faculty": 10
+      },
+      "confidence": 0.96
+    },
+    {
+      "doc_type": "fire_noc",
+      "fields": {
+        "noc_number": "SAMPLE-NOC-2026-15",
+        "valid_until": "2027-08-30"
+      },
+      "confidence": 0.94
+    }
+  ],
+  "modules": [
+    {
+      "module": "authenticity",
+      "sub_score": 100.0,
+      "flags": []
+    },
+    {
+      "module": "forgery",
+      "sub_score": 60.0,
+      "flags": [
+        {
+          "id": "FORGERY_CRIT_SAMPLE_05",
+          "severity": "critical",
+          "message": "SAMPLE seal reuse on trust_cert",
+          "document": "SAMPLE_trust_cert.pdf",
+          "evidence": {
+            "page": 1,
+            "bbox": [
+              210.0,
+              650.0,
+              360.0,
+              800.0
+            ],
+            "heatmap_path": "heatmaps/app_05_seal_reuse.png"
+          },
+          "clause": null
+        }
+      ]
+    },
+    {
+      "module": "compliance",
+      "sub_score": 100.0,
+      "flags": []
+    }
+  ]
+}

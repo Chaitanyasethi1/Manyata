@@ -3,8 +3,6 @@ __pycache__/
 *$py.class
 *.egg-info/
 .env
-*.db
-*.sqlite3
 uploads/
 node_modules/
 dist/
@@ -13,6 +11,10 @@ dist/
 .pytest_cache/
 *.log
 
-# Ignore PDFs by default except sample dataset bundles
+# Keep pre-seeded demo database
+!aicte_validator.db
+
+# Keep sample dataset PDFs and assets
 *.pdf
-!dataset/apps/**/*.pdf
+!dataset/applications/**/*.pdf
+!dataset/assets/**/*

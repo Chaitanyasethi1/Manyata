@@ -1,0 +1,6 @@
+{
+  "application_id": "AICTE-2026-0001",
+  "scenario": "clean",
+  "expected_flags": [],
+  "must_not_be_cleared": false
+}
