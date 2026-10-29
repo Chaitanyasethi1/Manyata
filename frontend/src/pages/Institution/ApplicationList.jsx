@@ -10,14 +10,16 @@ export default function ApplicationList() {
 
   useEffect(() => {
     listApplications()
-      .then(r => setApps(r.data))
+      .then(r => setApps(Array.isArray(r.data) ? r.data : []))
       .catch(() => setError('Failed to load applications.'))
       .finally(() => setLoading(false))
   }, [])
 
+  const safeApps = Array.isArray(apps) ? apps : []
+
   if (loading) return <p className="text-sm text-gray-400">Loading…</p>
   if (error)   return <p className="text-sm text-red-500">{error}</p>
-  if (!apps.length) return (
+  if (!safeApps.length) return (
     <div className="text-center py-12 text-gray-400">
       <p className="text-4xl mb-3">📭</p>
       <p className="text-sm">No applications yet.</p>
@@ -27,6 +29,7 @@ export default function ApplicationList() {
       </Link>
     </div>
   )
+
 
   return (
     <div>

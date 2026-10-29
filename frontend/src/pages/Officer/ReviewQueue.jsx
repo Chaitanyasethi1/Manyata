@@ -40,8 +40,16 @@ export default function ReviewQueue({ role, setRole }) {
   }, [])
 
   // Augmented list combining backend DB apps + mockup demo rows for complete fidelity
+  const safeApps = Array.isArray(apps) ? apps : []
+  const safeAlerts = Array.isArray(alerts) && alerts.length > 0 ? alerts : null
+  const safeStats = stats && typeof stats === 'object' && stats.by_status ? stats : {
+    total: 1240,
+    by_status: { CLEARED: 860, UNDER_REVIEW: 140, DEFICIENT: 70, SUBMITTED: 110, PROCESSING: 60 },
+    avg_trust_score: 82.4,
+  }
+
   const displayApps = [
-    ...apps.map((a, idx) => {
+    ...safeApps.map((a, idx) => {
       const score = a.trust_score ?? 85
       let route = 'Fast track'
       let stage = 'Routed'
@@ -56,8 +64,8 @@ export default function ReviewQueue({ role, setRole }) {
         statusTag = 'Needs review'
       }
       return {
-        id: a.application_id,
-        institution: a.institution_name,
+        id: a.application_id || `APP-040${idx + 1}`,
+        institution: a.institution_name || 'Academic Institution',
         updated: a.updated_at ? `${new Date(a.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '10 min ago',
         stage: stage,
         score: score,
@@ -115,8 +123,8 @@ export default function ReviewQueue({ role, setRole }) {
 
   // Filter based on search query
   const filteredApps = displayApps.filter((a) =>
-    a.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    a.institution.toLowerCase().includes(searchQuery.toLowerCase())
+    (a.id || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (a.institution || '').toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   const defaultAlerts = [

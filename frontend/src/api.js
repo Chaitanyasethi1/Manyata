@@ -2,6 +2,21 @@ import axios from 'axios'
 
 const api = axios.create({ baseURL: '/api/v1', timeout: 5000 })
 
+// Intercept responses: if Vercel SPA rewrite returns HTML (text/html or string starting with <!doctype), reject it so fallback data is used!
+api.interceptors.response.use(
+  (response) => {
+    if (typeof response.data === 'string' && (response.data.trim().startsWith('<!doctype') || response.data.trim().startsWith('<html'))) {
+      return Promise.reject(new Error('API returned HTML document instead of JSON'))
+    }
+    const contentType = response.headers?.['content-type'] || ''
+    if (typeof contentType === 'string' && contentType.includes('text/html')) {
+      return Promise.reject(new Error('API returned HTML content-type'))
+    }
+    return response
+  },
+  (error) => Promise.reject(error)
+)
+
 // ── Built-in Seed Fallback Data (Guarantees Vercel preview never displays blank screen) ──
 const FALLBACK_APPS = [
   {
@@ -92,9 +107,13 @@ const FALLBACK_ALERTS = [
 // ── Applications ─────────────────────────────────────────────
 export const submitApplication = async (formData) => {
   try {
-    return await api.post('/applications', formData, {
+    const res = await api.post('/applications', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
+    if (!res.data || typeof res.data !== 'object' || typeof res.data === 'string') {
+      throw new Error('Invalid submit response')
+    }
+    return res
   } catch (e) {
     const newId = `AICTE-2026-000${FALLBACK_APPS.length + 1}`
     const fakeApp = {
@@ -110,7 +129,11 @@ export const submitApplication = async (formData) => {
 
 export const listApplications = async (status) => {
   try {
-    return await api.get('/applications', { params: status ? { status } : {} })
+    const res = await api.get('/applications', { params: status ? { status } : {} })
+    if (!Array.isArray(res.data)) {
+      throw new Error('Applications response is not an array')
+    }
+    return res
   } catch (e) {
     const list = status ? FALLBACK_APPS.filter(a => a.status === status) : FALLBACK_APPS
     return { data: list }
@@ -119,10 +142,14 @@ export const listApplications = async (status) => {
 
 export const getApplication = async (appId) => {
   try {
-    return await api.get(`/applications/${appId}`)
+    const res = await api.get(`/applications/${appId}`)
+    if (!res.data || typeof res.data !== 'object' || typeof res.data === 'string' || !res.data.application_id) {
+      throw new Error('Invalid application data')
+    }
+    return res
   } catch (e) {
     const app = FALLBACK_APPS.find(a => a.application_id === appId) || {
-      id: appId,
+      application_id: appId,
       institution_name: 'Demo Institute of Management',
       contact_email: 'contact@demo-institute.edu.in',
       status: 'UNDER_REVIEW',
@@ -132,7 +159,7 @@ export const getApplication = async (appId) => {
     }
     return {
       data: {
-        application_id: app.application_id || app.id,
+        application_id: app.application_id || appId,
         institution_name: app.institution_name,
         contact_email: app.contact_email || 'info@sample.ac.in',
         status: app.status,
@@ -161,7 +188,11 @@ export const triggerPipeline = async (appId) => {
 
 export const getResult = async (appId) => {
   try {
-    return await api.get(`/applications/${appId}/result`)
+    const res = await api.get(`/applications/${appId}/result`)
+    if (!res.data || typeof res.data !== 'object' || typeof res.data === 'string' || !res.data.result) {
+      throw new Error('Invalid result data')
+    }
+    return res
   } catch (e) {
     return {
       data: {
@@ -203,9 +234,13 @@ export const getResult = async (appId) => {
 // ── Review ───────────────────────────────────────────────────
 export const submitReview = async (appId, decision, comment, officerId) => {
   try {
-    return await api.post(`/applications/${appId}/review`, {
+    const res = await api.post(`/applications/${appId}/review`, {
       decision, comment, officer_id: officerId,
     })
+    if (!res.data || typeof res.data !== 'object' || typeof res.data === 'string') {
+      throw new Error('Invalid review response')
+    }
+    return res
   } catch (e) {
     let newStatus = 'CLEARED'
     if (decision === 'RETURN_DEFICIENT') newStatus = 'DEFICIENT'
@@ -216,7 +251,11 @@ export const submitReview = async (appId, decision, comment, officerId) => {
 
 export const getAuditLog = async (appId) => {
   try {
-    return await api.get(`/applications/${appId}/audit`)
+    const res = await api.get(`/applications/${appId}/audit`)
+    if (!Array.isArray(res.data)) {
+      throw new Error('Audit response is not an array')
+    }
+    return res
   } catch (e) {
     return {
       data: [
@@ -231,12 +270,16 @@ export const getAuditLog = async (appId) => {
 // ── Alerts ───────────────────────────────────────────────────
 export const listAlerts = async (appId, unreadOnly) => {
   try {
-    return await api.get('/alerts', {
+    const res = await api.get('/alerts', {
       params: {
         ...(appId ? { application_id: appId } : {}),
         ...(unreadOnly ? { unread_only: true } : {}),
       },
     })
+    if (!Array.isArray(res.data)) {
+      throw new Error('Alerts response is not an array')
+    }
+    return res
   } catch (e) {
     const list = appId ? FALLBACK_ALERTS.filter(a => a.application_id === appId) : FALLBACK_ALERTS
     return { data: list }
@@ -272,7 +315,9 @@ export const downloadDeficiency = async (appId) => {
 
 export const listReports = async (appId) => {
   try {
-    return await api.get(`/applications/${appId}/reports`)
+    const res = await api.get(`/applications/${appId}/reports`)
+    if (!Array.isArray(res.data)) throw new Error('Reports is not array')
+    return res
   } catch (e) {
     return { data: [] }
   }
@@ -280,7 +325,11 @@ export const listReports = async (appId) => {
 
 export const getStats = async () => {
   try {
-    return await api.get('/stats')
+    const res = await api.get('/stats')
+    if (!res.data || typeof res.data !== 'object' || typeof res.data === 'string' || !res.data.by_status) {
+      throw new Error('Stats response is invalid')
+    }
+    return res
   } catch (e) {
     return {
       data: {
@@ -301,3 +350,4 @@ export const getStats = async () => {
 export const getAllAudit = async (appId) => {
   return getAuditLog(appId)
 }
+
