@@ -1,12 +1,13 @@
 import { useParams, Link } from 'react-router-dom'
 import { MOCK_APPLICATIONS } from '../../data/mockData.js'
+import TrustScoreGauge from '../../components/ui/TrustScoreGauge.jsx'
 import TrustScoreBar from '../../components/ui/TrustScoreBar.jsx'
 import StatusBadge from '../../components/ui/StatusBadge.jsx'
-import { FileText, ArrowLeft, AlertTriangle, ShieldCheck, ExternalLink, Printer } from 'lucide-react'
+import { FileText, ArrowLeft, AlertTriangle, ShieldCheck, ExternalLink, Printer, CheckCircle2 } from 'lucide-react'
 
 export default function ValidationReportView() {
   const { appId } = useParams()
-  const app = MOCK_APPLICATIONS.find((a) => a.applicationId === appId) || MOCK_APPLICATIONS[4] // default to 0005 for rich findings
+  const app = MOCK_APPLICATIONS.find((a) => a.applicationId === appId) || MOCK_APPLICATIONS[1] // fallback to AICTE-2026-0002
 
   const isCapped = app.status === 'DEFICIENT' && app.trustScore < 50
   const capReason = 'Score mathematically capped at 49 due to critical tamper indicators (seal duplication / area alteration).'
@@ -26,7 +27,7 @@ export default function ValidationReportView() {
               AICTE Regulation Scrutiny Report
             </span>
             <h2 className="text-base font-semibold text-[#0B1F4B]">
-              Dossier: {app.applicationId} · {app.institutionName}
+              Dossier: <span className="font-mono">{app.applicationId}</span> · {app.institutionName}
             </h2>
           </div>
         </div>
@@ -46,126 +47,146 @@ export default function ValidationReportView() {
         </div>
       </div>
 
-      {/* ── OVERALL TRUST SCORE WITH HORIZONTAL BAR (50 and 75 THRESHOLDS) ── */}
-      <TrustScoreBar score={app.trustScore} isCapped={isCapped} capReason={capReason} />
+      {/* ── 2-COLUMN GAUGE + WEIGHTED SUB-SCORES BREAKDOWN ────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Left Column (4 cols): Semi-Circular Gauge Visual */}
+        <div className="lg:col-span-4 gov-card p-6 rounded-[8px] flex flex-col justify-between items-center text-center bg-white">
+          <div className="w-full">
+            <span className="text-xs font-bold text-[#0B1F4B] uppercase tracking-wider block mb-1">
+              Evaluated Trust Score
+            </span>
+            <p className="text-[11px] text-[#5B6472] mb-4">
+              Composite score computed by Manyata Decision-Support Engine
+            </p>
 
-      {/* ── WEIGHTED SUB-SCORES TABLE ───────────────────────────────────────── */}
-      <div className="gov-card p-0 overflow-hidden">
-        <div className="p-3 bg-[#F8FAFC] border-b border-[#D0D5DD]">
-          <h3 className="text-xs font-bold text-[#0B1F4B] uppercase tracking-wider">
-            Weighted Evaluation Sub-Scores Breakdown
-          </h3>
+            <TrustScoreGauge score={app.trustScore} isCapped={isCapped} size={220} />
+          </div>
+
+          <div className="w-full mt-4 pt-3 border-t border-[#D0D5DD] text-[11px] text-[#5B6472]">
+            <span>Decision Route: </span>
+            <strong className="text-[#0B1F4B]">{app.route}</strong>
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="gov-table">
-            <thead>
-              <tr>
-                <th scope="col">Evaluation Module</th>
-                <th scope="col">Weightage</th>
-                <th scope="col">Evaluated Sub-Score</th>
-                <th scope="col">Norm Basis</th>
-                <th scope="col">Evaluation Summary</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="font-semibold text-[#1A1D23]">Document Authenticity & Registry Cross-Check</td>
-                <td className="font-mono text-xs">35%</td>
-                <td className="font-mono font-bold text-xs text-[#0B1F4B]">{app.subScores.authenticity} / 100</td>
-                <td className="text-xs text-[#5B6472]">State Land Bhoomi, Fire Services, MCA21 API</td>
-                <td className="text-xs text-[#5B6472]">
-                  {app.subScores.authenticity >= 75
-                    ? 'All external authorities confirmed certificate numbers and validity.'
-                    : 'Land deed or Fire NOC attributes mismatched against revenue registry.'}
-                </td>
-              </tr>
-              <tr>
-                <td className="font-semibold text-[#1A1D23]">Image Integrity & Forgery Analysis (ELA)</td>
-                <td className="font-mono text-xs">35%</td>
-                <td className="font-mono font-bold text-xs text-[#0B1F4B]">{app.subScores.forgeryAnalysis} / 100</td>
-                <td className="text-xs text-[#5B6472]">ELA compression variance, SIFT seal duplication hash</td>
-                <td className="text-xs text-[#5B6472]">
-                  {app.subScores.forgeryAnalysis >= 75
-                    ? 'Zero compression anomalies; uniform pixel noise distribution.'
-                    : 'Compression spikes detected on numerical survey boundaries and duplicate stamps.'}
-                </td>
-              </tr>
-              <tr>
-                <td className="font-semibold text-[#1A1D23]">Approval Process Handbook Regulatory Compliance</td>
-                <td className="font-mono text-xs">30%</td>
-                <td className="font-mono font-bold text-xs text-[#0B1F4B]">{app.subScores.compliance} / 100</td>
-                <td className="text-xs text-[#5B6472]">AICTE Handbook 2026-27 Chapters II to VI</td>
-                <td className="text-xs text-[#5B6472]">
-                  {app.subScores.compliance >= 75
-                    ? 'Student-to-Faculty Ratio (SFR) and land acreage meet mandatory norms.'
-                    : 'Student-to-Faculty Ratio or land acreage violates statutory threshold.'}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Right Column (8 cols): Sub-Score Table with Inline Progress Bars */}
+        <div className="lg:col-span-8 gov-card p-5 rounded-[8px] space-y-4 bg-white flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-[#D0D5DD]">
+              <span className="text-xs font-bold text-[#0B1F4B] uppercase tracking-wider">
+                Weighted Evaluation Sub-Scores Breakdown
+              </span>
+              <span className="text-[11px] font-mono text-[#5B6472]">3 Modules</span>
+            </div>
+
+            <div className="space-y-4 pt-3">
+              {[
+                {
+                  label: 'Document Authenticity & Registry Cross-Check',
+                  weight: '35%',
+                  score: app.subScores?.authenticity ?? 85,
+                  basis: 'State Land Bhoomi, Fire Services, MCA21 API',
+                  desc: 'Cross-verifies claims extracted from certificate texts against official state registries.',
+                },
+                {
+                  label: 'Image Integrity & Forgery Analysis (ELA)',
+                  weight: '35%',
+                  score: app.subScores?.forgeryAnalysis ?? 80,
+                  basis: 'Error Level Analysis (ELA) variance, seal keypoint hash',
+                  desc: 'Detects pixel compression spikes on validity dates and duplicate notary stamps.',
+                },
+                {
+                  label: 'AICTE Handbook Regulatory Compliance',
+                  weight: '30%',
+                  score: app.subScores?.compliance ?? 78,
+                  basis: 'AICTE Handbook 2026-27 Chapters II to VI',
+                  desc: 'Scrutinizes Floor Area Ratio (FAR), cadre balance, and laboratory norms.',
+                },
+              ].map((m, idx) => (
+                <div key={idx} className="space-y-1.5 p-3 bg-[#F4F6F9] rounded-[4px] border border-[#D0D5DD]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
+                    <span className="font-semibold text-[#0B1F4B]">{m.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] text-[#5B6472]">Weight: {m.weight}</span>
+                      <span className="font-mono font-bold text-xs text-[#0B1F4B]">{m.score} / 100</span>
+                    </div>
+                  </div>
+
+                  {/* Inline Progress Bar */}
+                  <div className="w-full bg-gray-200 h-2 rounded-[2px] overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        m.score >= 75 ? 'bg-[#1F5E34]' : m.score >= 50 ? 'bg-[#C99A3A]' : 'bg-[#8F2D2D]'
+                      }`}
+                      style={{ width: `${m.score}%` }}
+                    />
+                  </div>
+
+                  <p className="text-[11px] text-[#5B6472]">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-3 bg-[#F8FAFC] border-l-4 border-[#0B1F4B] text-[11px] text-[#5B6472] rounded-[2px]">
+            <strong className="text-[#0B1F4B]">Regulatory Rule 12(3):</strong> If a critical anomaly (forgery indicator or duplicate seal) exists, composite score is capped at 49 regardless of weighted sub-score sum.
+          </div>
         </div>
       </div>
 
-      {/* ── FINDINGS LIST ──────────────────────────────────────────────────── */}
-      <div className="gov-card p-5 space-y-4">
-        <div className="pb-2 border-b border-[#D0D5DD] flex items-center justify-between">
-          <h3 className="text-sm font-bold text-[#0B1F4B] uppercase tracking-wider">
-            Detailed Audit Findings & Statutory Clause References ({app.findings.length})
-          </h3>
-          <span className="text-xs text-[#5B6472]">Actionable Rectification Guidance</span>
+      {/* ── FINDINGS LIST LINKED TO CLAUSES ──────────────────────────────────── */}
+      <div className="gov-card p-5 rounded-[8px] space-y-4 bg-white">
+        <div className="flex items-center justify-between pb-2 border-b border-[#D0D5DD]">
+          <span className="text-xs font-bold text-[#0B1F4B] uppercase tracking-wider">
+            Detailed Scrutiny Findings & Violated Clauses
+          </span>
+          <span className="text-[11px] font-mono text-[#5B6472]">
+            {app.findings ? app.findings.length : 0} Findings Logged
+          </span>
         </div>
 
-        {app.findings.length === 0 ? (
-          <div className="p-4 bg-[#F0FDF4] border border-[#BBF7D0] text-[#1F5E34] text-xs rounded-[2px] flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#138808]" strokeWidth={1.5} />
-            <span>Zero statutory defects or integrity anomalies identified. Application conforms to all criteria.</span>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {app.findings.map((f) => {
-              const isCrit = f.severity === 'CRITICAL'
-              return (
-                <div
-                  key={f.id}
-                  className={`p-4 rounded-[2px] border text-xs space-y-2 ${
-                    isCrit ? 'bg-[#FDF2F2] border-[#F6B8B8]' : 'bg-[#FFFBEB] border-[#FDE68A]'
-                  }`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-1 border-b border-black/5">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`px-1.5 py-0.5 rounded-[2px] font-mono font-bold text-[10px] ${
-                          isCrit ? 'bg-[#8F2D2D] text-white' : 'bg-[#8A5A0B] text-white'
-                        }`}
-                      >
-                        {f.severity}
-                      </span>
-                      <span className="font-bold text-[#1A1D23]">{f.category}</span>
-                      <span className="text-[#5B6472]">({f.id})</span>
-                    </div>
-
-                    <span className="font-mono text-[11px] text-[#0B1F4B] font-semibold">
-                      {f.clause}
-                    </span>
-                  </div>
-
-                  <p className="text-[#1A1D23] font-medium leading-relaxed">
-                    <strong>Defect Observed:</strong> {f.reason}
-                  </p>
-
-                  <div className="p-2 bg-white/70 border border-black/10 rounded-[2px] text-[11px] text-[#5B6472] font-mono">
-                    <strong>Evidence Extract:</strong> {f.evidence}
-                  </div>
-
-                  <div className="text-[11px] text-[#1A1D23] bg-white p-2 border border-black/10 rounded-[2px]">
-                    <strong className="text-[#0B1F4B]">Suggested Regulatory Fix:</strong> {f.suggestedFix}
-                  </div>
+        <div className="space-y-3">
+          {(!app.findings || app.findings.length === 0) ? (
+            <div className="p-4 bg-[#E6F2EA] text-[#1F5E34] border border-[#4C8A62] rounded-[4px] text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Zero statutory anomalies found. Application eligible for automated clearance.</span>
+            </div>
+          ) : (
+            app.findings.map((f, i) => (
+              <div
+                key={i}
+                className={`p-4 rounded-[4px] border space-y-1.5 ${
+                  f.severity === 'CRITICAL' || f.severity === 'HIGH'
+                    ? 'bg-[#F6E7E7]/40 border-[#B85C5C]'
+                    : f.severity === 'MEDIUM' || f.severity === 'MAJOR'
+                    ? 'bg-[#FBF3DC]/60 border-[#C99A3A]'
+                    : 'bg-[#F4F6F9] border-[#D0D5DD]'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-[#0B1F4B]">{f.id}</span>
+                  <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-[2px] ${
+                    f.severity === 'CRITICAL' || f.severity === 'HIGH'
+                      ? 'bg-[#F6E7E7] text-[#8F2D2D] border border-[#B85C5C]'
+                      : 'bg-[#FBF3DC] text-[#8A5A0B] border border-[#C99A3A]'
+                  }`}>
+                    {f.severity}
+                  </span>
                 </div>
-              )
-            })}
-          </div>
-        )}
+
+                <p className="text-xs font-semibold text-[#1A1D23]">{f.reason}</p>
+                <p className="text-[11px] font-mono text-[#1F3A7A]">{f.clause}</p>
+
+                <div className="p-2 bg-white border border-[#D0D5DD] rounded-[2px] text-[11px] text-[#5B6472]">
+                  <strong>Evidence Extract:</strong> {f.evidence}
+                </div>
+
+                <p className="text-[11px] text-[#1A1D23]">
+                  <strong>Suggested Fix:</strong> {f.suggestedFix}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   )

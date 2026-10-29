@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import TricolourStrip from './components/layout/TricolourStrip.jsx'
 import UtilityBar from './components/layout/UtilityBar.jsx'
 import Header from './components/layout/Header.jsx'
@@ -26,22 +27,31 @@ import AdminPortal from './pages/Admin/index.jsx'
 
 export default function App() {
   const [role, setRole] = useState('officer') // 'officer' | 'institution' | 'admin'
+  const location = useLocation()
+
+  const isPortal =
+    location.pathname.startsWith('/institution') ||
+    location.pathname.startsWith('/officer') ||
+    location.pathname.startsWith('/admin')
 
   return (
     <div className="min-h-screen bg-[#F4F6F9] text-[#1A1D23] flex flex-col font-sans selection:bg-[#0B1F4B] selection:text-white">
-      {/* 1. Thin Tricolour Strip (Saffron / White / Green 4px) */}
+      {/* 1. Thin Tricolour Strip (Saffron / White / Green 4px on EVERY page) */}
       <TricolourStrip />
 
-      {/* 2. Utility Bar: Accessibility, Font size, Contrast, i18n */}
-      <UtilityBar />
+      {/* Global Notifications Toaster */}
+      <Toaster position="top-right" richColors />
 
-      {/* 3. National Portal Header with Neutral Crest & SIH26261 Tag */}
-      <Header />
+      {/* 2. Public Header & Navigation (rendered when browsing public public/informational pages) */}
+      {!isPortal && (
+        <>
+          <UtilityBar />
+          <Header />
+          <Navbar role={role} setRole={setRole} />
+        </>
+      )}
 
-      {/* 4. Navy Main Navigation Bar with Role Quick Switcher */}
-      <Navbar role={role} setRole={setRole} />
-
-      {/* 5. Main Content Area */}
+      {/* 3. Main Content Area */}
       <main id="main-content" className="flex-1 w-full flex flex-col min-w-0" tabIndex={-1}>
         <ErrorBoundary>
           <Routes>
@@ -54,7 +64,7 @@ export default function App() {
             <Route path="/faqs" element={<HelpFaqs />} />
             <Route path="/login" element={<Login setRole={setRole} />} />
 
-            {/* Role-Based Portals */}
+            {/* Role-Based Portals (Wrapped inside PortalAppShell with fixed sidebar & command palette) */}
             <Route path="/institution/*" element={<InstitutionPortal />} />
             <Route path="/officer/*" element={<OfficerPortal />} />
             <Route path="/admin/*" element={<AdminPortal />} />
@@ -65,8 +75,8 @@ export default function App() {
         </ErrorBoundary>
       </main>
 
-      {/* 6. Official 4-Column Government Footer */}
-      <Footer />
+      {/* 4. Public Footer (rendered on public/informational pages) */}
+      {!isPortal && <Footer />}
     </div>
   )
 }
