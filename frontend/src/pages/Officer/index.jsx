@@ -1,12 +1,19 @@
 import { Routes, Route } from 'react-router-dom'
-import ReviewQueue  from './ReviewQueue.jsx'
-import ReviewDetail from './ReviewDetail.jsx'
+import OfficerLayout from './OfficerLayout.jsx'
+import ReviewQueue from './ReviewQueue.jsx'
+import OfficerReview from './OfficerReview.jsx'
+import VerificationSourcesPanel from './VerificationSourcesPanel.jsx'
+import OfficerSOP from './OfficerSOP.jsx'
 
-export default function OfficerPortal({ role, setRole }) {
+export default function OfficerPortal() {
   return (
     <Routes>
-      <Route index         element={<ReviewQueue role={role} setRole={setRole} />} />
-      <Route path=":appId" element={<ReviewDetail role={role} setRole={setRole} />} />
+      <Route element={<OfficerLayout />}>
+        <Route index element={<ReviewQueue />} />
+        <Route path="sources" element={<VerificationSourcesPanel />} />
+        <Route path="sop" element={<OfficerSOP />} />
+        <Route path=":appId" element={<OfficerReview />} />
+      </Route>
     </Routes>
   )
 }

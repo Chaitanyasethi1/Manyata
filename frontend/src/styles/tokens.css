@@ -1,0 +1,321 @@
+/* ==========================================================================
+   MANYATA DESIGN SYSTEM TOKENS - NIC / GIGW 3.0 SPECIFICATION
+   Strict adherence: No gradients, no soft shadows, max 4px radius, 1px borders.
+   ========================================================================== */
+
+:root {
+  /* Core Palette */
+  --navy-900: #0B1F4B;
+  --navy-800: #132D6B;
+  --navy-700: #1F3A7A;
+  --navy-600: #2C4F9E;
+  --navy-100: #EBF0FA;
+
+  --saffron: #E07B00;
+  --saffron-light: #FBF3DC;
+  --india-green: #138808;
+  --india-green-light: #E6F2EA;
+
+  --bg: #F4F6F9;
+  --surface: #FFFFFF;
+  --border: #D0D5DD;
+  --border-dark: #98A2B3;
+  --muted-text: #5B6472;
+  --text: #1A1D23;
+
+  /* Status Colors (Standardized across entire system) */
+  --status-deficient-text: #8F2D2D;
+  --status-deficient-bg: #F6E7E7;
+  --status-deficient-border: #B85C5C;
+
+  --status-review-text: #8A5A0B;
+  --status-review-bg: #FBF3DC;
+  --status-review-border: #C99A3A;
+
+  --status-cleared-text: #1F5E34;
+  --status-cleared-bg: #E6F2EA;
+  --status-cleared-border: #4C8A62;
+
+  --status-neutral-text: #475467;
+  --status-neutral-bg: #F2F4F7;
+  --status-neutral-border: #D0D5DD;
+
+  /* Typography scale */
+  --font-sans: 'Noto Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Noto Sans Mono', monospace;
+  --base-font-size: 15px;
+
+  /* Grid & Shapes */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px; /* Modals only */
+  --radius-none: 0px;
+}
+
+/* Base Body Configuration */
+html {
+  font-family: var(--font-sans);
+  font-size: var(--base-font-size);
+  color: var(--text);
+  background-color: var(--bg);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text Size Accessibility Scaling */
+body.font-size-sm {
+  font-size: 13.5px;
+}
+body.font-size-md {
+  font-size: 15px;
+}
+body.font-size-lg {
+  font-size: 16.5px;
+}
+
+/* High Contrast Mode (WCAG 2.1 AAA / GIGW 3.0 Requirement) */
+body.high-contrast {
+  --bg: #000000;
+  --surface: #121212;
+  --text: #FFFFFF;
+  --muted-text: #E0E0E0;
+  --border: #FFFFFF;
+  --border-dark: #FFFFFF;
+  --navy-900: #000000;
+  --navy-700: #FFFF00;
+  --navy-100: #1E1E1E;
+}
+body.high-contrast a {
+  color: #FFFF00 !important;
+  text-decoration: underline !important;
+}
+body.high-contrast button {
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Accessible Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--navy-900);
+  outline-offset: 2px;
+}
+body.high-contrast :focus-visible {
+  outline: 3px solid #FFFF00;
+  outline-offset: 3px;
+}
+
+/* Government Dense Tables */
+.gov-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.gov-table thead th {
+  background-color: var(--navy-900);
+  color: #FFFFFF;
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  white-space: nowrap;
+}
+
+.gov-table tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--text);
+}
+
+.gov-table tbody tr:nth-child(even) {
+  background-color: #F8FAFC;
+}
+
+.gov-table tbody tr:hover {
+  background-color: #EDF2F7;
+}
+
+/* Card & Panels (No soft shadows, maximum 4px radius) */
+.gov-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+/* Official Notice & Alert Boxes */
+.gov-notice {
+  border-left: 4px solid var(--navy-700);
+  background-color: #F0F4FA;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+}
+
+.gov-notice-warning {
+  border-left: 4px solid var(--saffron);
+  background-color: #FFF9F0;
+  padding: 12px 16px;
+  border-top: 1px solid #F5D6A8;
+  border-right: 1px solid #F5D6A8;
+  border-bottom: 1px solid #F5D6A8;
+  border-radius: var(--radius-xs);
+}
+
+.gov-notice-danger {
+  border-left: 4px solid #8F2D2D;
+  background-color: #FDF2F2;
+  padding: 12px 16px;
+  border-top: 1px solid #F6B8B8;
+  border-right: 1px solid #F6B8B8;
+  border-bottom: 1px solid #F6B8B8;
+  border-radius: var(--radius-xs);
+}
+
+/* Formal Form Controls */
+.gov-input,
+.gov-select,
+.gov-textarea {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--text);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-sizing: border-box;
+}
+
+.gov-input:focus,
+.gov-select:focus,
+.gov-textarea:focus {
+  outline: 2px solid var(--navy-700);
+  border-color: var(--navy-700);
+}
+
+/* Primary and Secondary Buttons */
+.gov-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gov-btn-primary {
+  background-color: var(--navy-900);
+  color: #FFFFFF;
+  border: 1px solid var(--navy-900);
+}
+.gov-btn-primary:hover {
+  background-color: var(--navy-700);
+  border-color: var(--navy-700);
+}
+
+.gov-btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--navy-900);
+  border: 1px solid var(--navy-900);
+}
+.gov-btn-secondary:hover {
+  background-color: #F0F4FA;
+}
+
+.gov-btn-muted {
+  background-color: #FFFFFF;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.gov-btn-muted:hover {
+  background-color: #F8F9FA;
+  border-color: var(--border-dark);
+}
+
+.gov-btn-danger {
+  background-color: #8F2D2D;
+  color: #FFFFFF;
+  border: 1px solid #8F2D2D;
+}
+.gov-btn-danger:hover {
+  background-color: #6E1F1F;
+}
+
+/* Reduced Motion Respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print Stylesheet (Official A4 printout for Deficiency Notice & Clearance Package) */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  .no-print,
+  .gov-utility-bar,
+  .gov-navbar,
+  .gov-footer,
+  .tricolour-strip,
+  button,
+  .btn-print-hidden {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-page {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .print-break {
+    page-break-after: always;
+  }
+
+  .gov-card,
+  .gov-table {
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+  }
+
+  .gov-table thead th {
+    background-color: #EEEEEE !important;
+    color: #000000 !important;
+    border-bottom: 2px solid #000000 !important;
+  }
+}

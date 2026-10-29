@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <!-- Outer Shield Border -->
+  <path d="M24 4L7 10V22C7 33.5 14.5 42.5 24 45C33.5 42.5 41 33.5 41 22V10L24 4Z" fill="#0B1F4B" stroke="#D0D5DD" stroke-width="1.5"/>
+  <!-- Inner Shield Inset -->
+  <path d="M24 7L10 12V22C10 31.5 16 39.5 24 41.8C32 39.5 38 31.5 38 22V12L24 7Z" fill="#1F3A7A"/>
+  <!-- Central Emblem: Chakra / Seal representation -->
+  <circle cx="24" cy="23" r="8.5" stroke="#FFFFFF" stroke-width="1.2" fill="#0B1F4B"/>
+  <circle cx="24" cy="23" r="2.5" fill="#E07B00"/>
+  <!-- Radiating Spoke Accents -->
+  <path d="M24 15V18M24 28V31M16 23H19M29 23H32M18.3 17.3L20.4 19.4M27.6 26.6L29.7 28.7M18.3 28.7L20.4 26.6M27.6 19.4L29.7 17.3" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
+  <!-- Base Ribbons -->
+  <path d="M16 36L24 38L32 36" stroke="#138808" stroke-width="2" stroke-linecap="round"/>
+</svg>
